@@ -1,9 +1,9 @@
 // import React from 'react'
 import { useState, useEffect } from "react";
-import "../assets/css/productList.css";
+
 // import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-// import Images from "../assets/images/default-image.jpg";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchDrugsThunk,

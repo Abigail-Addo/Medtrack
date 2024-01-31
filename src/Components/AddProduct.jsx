@@ -1,6 +1,6 @@
 // import React from 'react'
 import { useForm } from "react-hook-form";
-import "../assets/css/addProduct.css";
+
 import { addDrugThunk } from "../store/features/pharmacy/pharmacySlice";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
