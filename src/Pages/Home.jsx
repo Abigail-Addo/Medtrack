@@ -1,28 +1,12 @@
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import "../assets/css/home.css";
-import AddProduct from "../Components/AddProduct";
-import Statistics from "../Components/Statistics";
-import ProductList from "../Components/ProductList";
+// import React from 'react'
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
     <>
-      <Navbar />
-      
-      <div className="wrapper">
-        <Sidebar />
+      <h1>Hello</h1>
+      <Link to="/pharmacy">Pharmcy</Link>
 
-        <main>
-          <div className="main pt-5">
-            <AddProduct />
-            <Statistics />
-          </div>
-          <div className="py-5">
-            <ProductList />
-          </div>
-        </main>
-      </div>
     </>
   );
 };

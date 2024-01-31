@@ -4,14 +4,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import "./assets/css/App.css";
-import Home from "./Pages/Home";
+
+import Routes from "./Router/routes";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   return (
     <>
-      <Home />
+      <Routes />
+      <Outlet />
     </>
-  )
-}
+  );
+};
 
 export default App;
