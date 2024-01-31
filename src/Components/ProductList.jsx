@@ -60,10 +60,14 @@ const ProductList = () => {
 
   const editSubmit = (drug) => {
     try {
-      dispatch(updateDrugThunk(drug));
+      const confirmed = confirm("Are you sure you want to edit this drug");
+      if (confirmed) {
+        dispatch(updateDrugThunk(drug));
 
+        setShowFormModal(false);
+        toast.success("Drug updated successfully");
+      }
       setShowFormModal(false);
-      toast.success("Drug updated successfully");
     } catch (error) {
       console.error(error);
     }

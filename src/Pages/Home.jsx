@@ -4,9 +4,15 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <>
-      <h1>Hello</h1>
-      <Link to="/pharmacy">Pharmcy</Link>
+      <nav className="d-flex justify-content-evenly">
+        <Link to="/home">Home</Link>
+        <br />
+        <Link to="/pharmacy">Pharmacy</Link>
+        <br />
+        <Link to="/laboratory">Laboratory</Link>
+      </nav>
 
+      <h1>Home page</h1>
     </>
   );
 };
