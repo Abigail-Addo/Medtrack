@@ -1,6 +1,5 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import "../assets/css/home.css";
 import "../assets/css/pharm.css"
 import AddProduct from "../Components/AddProduct";
 import Statistics from "../Components/Statistics";

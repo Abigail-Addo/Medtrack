@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 
 import { addDrugThunk } from "../store/features/pharmacy/pharmacySlice";
 import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const AddProduct = () => {
   const { register, handleSubmit, getValues, reset } = useForm();
@@ -12,16 +12,19 @@ const AddProduct = () => {
   const dispatch = useDispatch();
 
   const addSubmit = () => {
-    const drug = getValues();
-    dispatch(addDrugThunk(drug));
-    reset();
-    toast.success("Drug added successfully");
+    try {
+      const drug = getValues();
+      dispatch(addDrugThunk(drug));
+      reset();
+      // toast.success("Drug added successfully");
+    } catch (error) {
+      console.error("Error adding drug:", error);
+      // toast.error("Failed to add drug. Please try again.");
+    }
   };
 
   return (
     <div className="container">
-      
-      <ToastContainer />
 
       <form onSubmit={handleSubmit(addSubmit)} encType="multipart/form-data">
         <div className="formControl">
@@ -72,6 +75,9 @@ const AddProduct = () => {
 
         <button type="submit">Add</button>
       </form>
+
+      {/* <ToastContainer /> */}
+
     </div>
   );
 };

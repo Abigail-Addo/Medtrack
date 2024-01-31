@@ -4,6 +4,7 @@ const initialState = {
   drugs: [],
   loading: false,
   error: null,
+  drug: [],
 };
 
 // add a drug
@@ -24,6 +25,7 @@ export const addDrugThunk = createAsyncThunk("drugs/addDrug", async (drugs) => {
     });
     const data = await response.json(drugs);
     return data;
+
   } catch (error) {
     console.log(error);
   }
@@ -36,28 +38,26 @@ export const fetchDrugsThunk = createAsyncThunk(
     try {
       const response = await fetch("http://localhost:8081/pharm/v1/drugs");
       const data = await response.json(drugs);
-      // console.log(data)
       return data;
+
     } catch (error) {
       console.log(error);
     }
   }
 );
 
-// fetch all a single drug
-// export const fetchDrugThunk = createAsyncThunk(
-//   "drug/allDrug",
-//   async (drug) => {
-//     try {
-//       const response = await fetch(`http://localhost:8081/pharm/v1/drug/${drug}`);
-//       const data = await response.json(drug);
-//       // console.log(data)
-//       return data;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
+// fetch a single drug
+export const fetchDrugThunk = createAsyncThunk("drug/allDrug", async (drug) => {
+  try {
+    const response = await fetch(`http://localhost:8081/pharm/v1/drug/${drug}`);
+    // eslint-disable-next-line no-unused-vars
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // delete a drug
 export const deleteDrugThunk = createAsyncThunk(
@@ -74,39 +74,45 @@ export const deleteDrugThunk = createAsyncThunk(
         }
       );
 
+      // eslint-disable-next-line no-unused-vars
       const deleteDrug = await response.json();
-      console.log("deleting drug...", deleteDrug);
+      return id;
+
     } catch (error) {
       console.log(error);
     }
   }
 );
 
-// edit a drug
-export const updateDrugThunk = createAsyncThunk("drugs/updateDrug", async (id) => {
-  try {
-      const response = await fetch(`http://localhost:8081/pharm/v1/drug${id}`, {
-          method: 'PATCH',
+// update a drug
+export const updateDrugThunk = createAsyncThunk(
+  "drugs/updateDrug",
+  async (drug) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/pharm/v1/drug/${drug._id}`,
+        {
+          method: "PATCH",
           headers: {
-              'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            drug_name: id.drug_name,
-            description: id.description,
-            drug_code: id.drug_code,
-            unit_of_pricing: id.unit_of_pricing,
-            price: id.price,
-          })
-
-      })
+            drug_name: drug.drug_name,
+            description: drug.description,
+            drug_code: drug.drug_code,
+            unit_of_pricing: drug.unit_of_pricing,
+            price: drug.price,
+          }),
+        }
+      );
       const drugUpdate = await response.json();
-      console.log('editing ticket', drugUpdate)
-      return drugUpdate
+      return drugUpdate;
 
-  } catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
+    }
   }
-})
+);
 
 const pharmacySlice = createSlice({
   name: "drugs",
@@ -140,18 +146,22 @@ const pharmacySlice = createSlice({
         state.error = action.error.message;
       })
 
-      // //fetching a drug
-      // .addCase(fetchDrugThunk.pending, (state) => {
-      //   state.loading = false;
-      // })
-      // .addCase(fetchDrugThunk.fulfilled, (state, action) => {
-      //   state.loading = true;
-      //   state.drugs = action.payload._id;
-      // })
-      // .addCase(fetchDrugThunk.rejected, (state, action) => {
-      //   state.loading = false;
-      //   state.error = action.error.message;
-      // })
+      // //fetching a single drug
+      .addCase(fetchDrugThunk.pending, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchDrugThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.drugs = state.drugs.map((drug) =>
+          drug._id === action.payload._id ? action.payload : drug
+        );
+        state.drug = action.payload;
+
+      })
+      .addCase(fetchDrugThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
 
       // deleting a drug
       .addCase(deleteDrugThunk.pending, (state) => {
@@ -166,17 +176,15 @@ const pharmacySlice = createSlice({
         state.error = action.error.message;
       })
 
-      // editing a drug
+      // updating a drug
       .addCase(updateDrugThunk.pending, (state) => {
         state.loading = true;
       })
       .addCase(updateDrugThunk.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload && action.payload._id) {
-          state.drugs = state.drugs.map((drug) =>
-            drug._id === action.payload ? action.payload : drug
-          );
-        }
+        state.drugs = state.drugs.map((drug) =>
+          drug._id === action.payload._id ? action.payload : drug
+        );
       })
       .addCase(updateDrugThunk.rejected, (state, action) => {
         state.loading = false;
@@ -185,5 +193,5 @@ const pharmacySlice = createSlice({
   },
 });
 
-// export const { addDrug } = pharmacySlice.actions;
+
 export default pharmacySlice.reducer;

@@ -7,6 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchDrugsThunk,
+  fetchDrugThunk,
   deleteDrugThunk,
   updateDrugThunk,
 } from "../store/features/pharmacy/pharmacySlice";
@@ -20,6 +21,7 @@ const ProductList = () => {
 
   const dispatch = useDispatch();
   const drugs = useSelector((state) => state.pharmacy.drugs);
+  const drug = useSelector((state) => state.pharmacy.drug);
 
   const { register, setValue, handleSubmit } = useForm();
 
@@ -30,30 +32,51 @@ const ProductList = () => {
   const deletedrug = async (drug) => {
     const confirmed = confirm("Are you sure you want to delete this drug");
     if (confirmed) {
-      dispatch(deleteDrugThunk(drug));
-      toast.success("Drug deleted successfully");
-    } else {
-      toast.error("Failed to delete drug");
+      try {
+        dispatch(deleteDrugThunk(drug));
+        toast.success("Drug deleted successfully");
+      } catch (error) {
+        toast.error("Failed to delete drug");
+      }
     }
   };
 
   const editDrug = async (drug) => {
-    setShowFormModal(true);
-  
-    dispatch(updateDrugThunk(drug._id));
+    try {
+      setShowFormModal(true);
 
-    setValue("drug_name", drug.drug_name);
-    setValue("description", drug.description);
-    setValue("drug_code", drug.drug_code);
-    setValue("unit_of_pricing", drug.unit_of_pricing);
-    setValue("price", drug.price);
+      dispatch(fetchDrugThunk(drug._id));
+
+      setValue("_id", drug._id);
+      setValue("drug_name", drug.drug_name);
+      setValue("description", drug.description);
+      setValue("drug_code", drug.drug_code);
+      setValue("unit_of_pricing", drug.unit_of_pricing);
+      setValue("price", drug.price);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const editSubmit =  (drug) => {
-     dispatch(updateDrugThunk(drug._id));
+  const editSubmit = (drug) => {
+    try {
+      dispatch(updateDrugThunk(drug));
 
-    setShowFormModal(false);
-    toast.success("Drug updated successfully");
+      setShowFormModal(false);
+      toast.success("Drug updated successfully");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const showProductDetails = (drugId) => {
+    try {
+      console.log(drugId);
+      dispatch(fetchDrugThunk(drugId._id));
+      setShowModal(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -78,7 +101,7 @@ const ProductList = () => {
               {drugs.map((drug) => (
                 <tr key={drug._id}>
                   <td
-                    onClick={() => setShowModal(true)}
+                    onClick={() => showProductDetails(drug)}
                     className="product-modal"
                   >
                     {drug.drug_name}
@@ -99,7 +122,7 @@ const ProductList = () => {
                     <span
                       className="material-symbols-outlined"
                       title="edit"
-                      onClick={() => editDrug(drug._id)}
+                      onClick={() => editDrug(drug)}
                     >
                       edit
                     </span>
@@ -131,38 +154,26 @@ const ProductList = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* <figure>
-            <img
-              src={Images}
-              alt="image of the drug"
-              style={{ width: 200, height: 200 }}
-            />
-            <figcaption className="text-center py-2"> name of drug </figcaption>
-          </figure> */}
-
           <div className="details">
             <h4>Drug Name</h4>
-            <p>sigjheuirsdfjkgne</p>
+            <p>{drug.drug_name}</p>
           </div>
+
           <div className="details">
             <h4>Description</h4>
-            <p>
-              sigjheuirsdfjkgne Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Aliquam vel doloremque id accusamus ad amet
-              similique voluptatum culpa? Quaerat, provident!
-            </p>
+            <p>{drug.description}</p>
           </div>
           <div className="details">
             <h4>Drug Code</h4>
-            <p>sigjheuirsdfjkgne</p>
+            <p>{drug.drug_code}</p>
           </div>
           <div className="details">
             <h4>Unit of Pricing</h4>
-            <p>sigjheuirsdfjkgne</p>
+            <p>{drug.unit_of_pricing}</p>
           </div>
           <div className="details">
             <h4>Price (Ghc)</h4>
-            <p>sigjheuirsdfjkgne</p>
+            <p>{drug.price}</p>
           </div>
         </Modal.Body>
       </Modal>
