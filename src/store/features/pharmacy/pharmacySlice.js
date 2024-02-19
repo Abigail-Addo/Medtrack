@@ -50,7 +50,7 @@ export const fetchDrugsThunk = createAsyncThunk(
 export const fetchDrugThunk = createAsyncThunk("drug/allDrug", async (drug) => {
   try {
     const response = await fetch(`http://localhost:8081/pharm/v1/drug/${drug}`);
-    // eslint-disable-next-line no-unused-vars
+
     const data = await response.json();
     return data;
 

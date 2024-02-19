@@ -1,8 +1,11 @@
-// import React from 'react'
 import { useState, useEffect } from "react";
 
-// import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+
+import { FaRegTrashAlt } from "react-icons/fa";
+import { TiPencil } from "react-icons/ti";
+// import Select from "react-select";
+// import  unitOfPricingDb  from "../assets/db/unitOfPricing.json";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,11 +14,13 @@ import {
   deleteDrugThunk,
   updateDrugThunk,
 } from "../store/features/pharmacy/pharmacySlice";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { useForm } from "react-hook-form";
 
-const ProductList = () => {
+const DrugList = ({ searchQuery }) => {
   const [showModal, setShowModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
 
@@ -25,19 +30,27 @@ const ProductList = () => {
 
   const { register, setValue, handleSubmit } = useForm();
 
+  const filteredDrugs = drugs.filter(
+    (drug) =>
+      drug.drug_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      drug.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      drug.drug_code.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     dispatch(fetchDrugsThunk());
   }, [dispatch]);
 
   const deletedrug = async (drug) => {
-    const confirmed = confirm("Are you sure you want to delete this drug");
-    if (confirmed) {
-      try {
+    try {
+      const confirmed = confirm("Are you sure you want to delete this drug");
+      if (confirmed) {
         dispatch(deleteDrugThunk(drug));
         toast.success("Drug deleted successfully");
-      } catch (error) {
-        toast.error("Failed to delete drug");
       }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete drug");
     }
   };
 
@@ -60,7 +73,7 @@ const ProductList = () => {
 
   const editSubmit = (drug) => {
     try {
-      const confirmed = confirm("Are you sure you want to edit this drug");
+      const confirmed = confirm("Are you sure you want to update this drug");
       if (confirmed) {
         dispatch(updateDrugThunk(drug));
 
@@ -70,6 +83,7 @@ const ProductList = () => {
       setShowFormModal(false);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to update drug");
     }
   };
 
@@ -81,6 +95,54 @@ const ProductList = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const renderDrugTable = () => {
+    if (filteredDrugs.length === 0) {
+      return (
+        <tr>
+          <td colSpan="6" className="text-center">
+            No drugs found
+          </td>
+        </tr>
+      );
+    }
+
+    return filteredDrugs.map((drug) => (
+      <tr key={drug._id}>
+        <td onClick={() => showProductDetails(drug)} className="product-modal">
+          {drug.drug_name}
+        </td>
+        <td title="Click on the drug name to view full details.">
+          {drug.description}
+        </td>
+        <td title="Click on the drug name to view full details.">
+          {drug.drug_code}
+        </td>
+        <td title="Click on the drug name to view full details.">
+          {drug.unit_of_pricing}
+        </td>
+        <td title="Click on the drug name to view full details.">
+          {drug.price}
+        </td>
+        <td>
+          <span
+            className="material-symbols-outlined"
+            title="update"
+            onClick={() => editDrug(drug)}
+          >
+            <TiPencil />
+          </span>
+          <span
+            onClick={() => deletedrug(drug._id)}
+            className="material-symbols-outlined px-3 text-danger"
+            title="delete"
+          >
+            <FaRegTrashAlt />
+          </span>
+        </td>
+      </tr>
+    ));
   };
 
   return (
@@ -102,6 +164,7 @@ const ProductList = () => {
               </tr>
             </thead>
             <tbody>
+              {renderDrugTable()}
               {drugs.map((drug) => (
                 <tr key={drug._id}>
                   <td
@@ -125,17 +188,17 @@ const ProductList = () => {
                   <td>
                     <span
                       className="material-symbols-outlined"
-                      title="edit"
+                      title="update"
                       onClick={() => editDrug(drug)}
                     >
-                      edit
+                      <TiPencil />
                     </span>
                     <span
                       onClick={() => deletedrug(drug._id)}
                       className="material-symbols-outlined px-3 text-danger"
                       title="delete"
                     >
-                      delete
+                      <FaRegTrashAlt />
                     </span>
                   </td>
                 </tr>
@@ -244,7 +307,7 @@ const ProductList = () => {
               />
             </div>
 
-            <button type="submit">Edit</button>
+            <button type="submit">Update</button>
           </form>
         </Modal.Body>
       </Modal>
@@ -252,4 +315,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default DrugList;

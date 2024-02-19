@@ -1,27 +1,38 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import "../assets/css/pharm.css"
-import AddProduct from "../Components/AddProduct";
+import AddDrug from "../Components/AddDrug";
 import Statistics from "../Components/Statistics";
-import ProductList from "../Components/ProductList";
+import DrugList from "../Components/DrugList";
+import { useState } from "react";
 
 const Pharm = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+  
   return (
     <>
-      <Navbar />
-      
+      <Navbar onSearch={handleSearch} />
+
       <div className="wrapper">
         <Sidebar />
 
-        <main>
-          <div className="main pt-5">
-            <AddProduct />
-            <Statistics />
+        <div className="main">
+          <div className="section pt-5">
+            <div className="">
+              <AddDrug />
+            </div>
+            <div className="">
+              <Statistics />
+            </div>
           </div>
+
           <div className="py-5">
-            <ProductList />
+            <DrugList searchQuery={searchQuery} />
           </div>
-        </main>
+        </div>
       </div>
     </>
   );
