@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 
 import { FaRegTrashAlt } from "react-icons/fa";
 import { TiPencil } from "react-icons/ti";
+import { FaEye } from "react-icons/fa";
 // import Select from "react-select";
 // import  unitOfPricingDb  from "../assets/db/unitOfPricing.json";
 
@@ -20,7 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useForm } from "react-hook-form";
 
-const DrugList = ({ searchQuery }) => {
+const DrugList = () => {
   const [showModal, setShowModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
 
@@ -29,13 +30,6 @@ const DrugList = ({ searchQuery }) => {
   const drug = useSelector((state) => state.pharmacy.drug);
 
   const { register, setValue, handleSubmit } = useForm();
-
-  const filteredDrugs = drugs.filter(
-    (drug) =>
-      drug.drug_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      drug.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      drug.drug_code.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   useEffect(() => {
     dispatch(fetchDrugsThunk());
@@ -97,54 +91,6 @@ const DrugList = ({ searchQuery }) => {
     }
   };
 
-  const renderDrugTable = () => {
-    if (filteredDrugs.length === 0) {
-      return (
-        <tr>
-          <td colSpan="6" className="text-center">
-            No drugs found
-          </td>
-        </tr>
-      );
-    }
-
-    return filteredDrugs.map((drug) => (
-      <tr key={drug._id}>
-        <td onClick={() => showProductDetails(drug)} className="product-modal">
-          {drug.drug_name}
-        </td>
-        <td title="Click on the drug name to view full details.">
-          {drug.description}
-        </td>
-        <td title="Click on the drug name to view full details.">
-          {drug.drug_code}
-        </td>
-        <td title="Click on the drug name to view full details.">
-          {drug.unit_of_pricing}
-        </td>
-        <td title="Click on the drug name to view full details.">
-          {drug.price}
-        </td>
-        <td>
-          <span
-            className="material-symbols-outlined"
-            title="update"
-            onClick={() => editDrug(drug)}
-          >
-            <TiPencil />
-          </span>
-          <span
-            onClick={() => deletedrug(drug._id)}
-            className="material-symbols-outlined px-3 text-danger"
-            title="delete"
-          >
-            <FaRegTrashAlt />
-          </span>
-        </td>
-      </tr>
-    ));
-  };
-
   return (
     <>
       <ToastContainer />
@@ -164,28 +110,24 @@ const DrugList = ({ searchQuery }) => {
               </tr>
             </thead>
             <tbody>
-              {renderDrugTable()}
               {drugs.map((drug) => (
                 <tr key={drug._id}>
-                  <td
-                    onClick={() => showProductDetails(drug)}
-                    className="product-modal"
-                  >
+                  <td className="drug" title={drug.drug_name}>
                     {drug.drug_name}
                   </td>
-                  <td title="Click on the drug name to view full details.">
+                  <td className="drug" title={drug.description}>
                     {drug.description}
                   </td>
-                  <td title="Click on the drug name to view full details.">
+                  <td className="drug" title={drug.drug_code}>
                     {drug.drug_code}
                   </td>
-                  <td title="Click on the drug name to view full details.">
+                  <td className="drug" title={drug.unit_of_pricing}>
                     {drug.unit_of_pricing}
                   </td>
-                  <td title="Click on the drug name to view full details.">
+                  <td className="drug" title={drug.price}>
                     {drug.price}
                   </td>
-                  <td>
+                  <td className="px-4">
                     <span
                       className="material-symbols-outlined"
                       title="update"
@@ -195,10 +137,17 @@ const DrugList = ({ searchQuery }) => {
                     </span>
                     <span
                       onClick={() => deletedrug(drug._id)}
-                      className="material-symbols-outlined px-3 text-danger"
+                      className="material-symbols-outlined px-1 text-danger"
                       title="delete"
                     >
                       <FaRegTrashAlt />
+                    </span>
+                    <span
+                      onClick={() => showProductDetails(drug)}
+                      className="material-symbols-outlined"
+                      title="View details"
+                    >
+                      <FaEye />
                     </span>
                   </td>
                 </tr>
@@ -247,6 +196,7 @@ const DrugList = ({ searchQuery }) => {
 
       {/* Form to edit product */}
       <Modal
+        size="lg"
         show={showFormModal}
         onHide={() => setShowFormModal(false)}
         aria-labelledby="modal"
@@ -303,11 +253,12 @@ const DrugList = ({ searchQuery }) => {
                 type="number"
                 name="price"
                 id="price"
+                step="any"
                 {...register("price", { required: true })}
               />
             </div>
 
-            <button type="submit">Update</button>
+            <button type="submit" className="editBtn">Update</button>
           </form>
         </Modal.Body>
       </Modal>

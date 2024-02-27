@@ -1,19 +1,16 @@
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { useState } from "react";
+// import {searchDrugsThunk} from "../store/features/pharmacy/pharmacySlice";
+// import { useDispatch } from "react-redux";
 
-const Navbar = ({ onSearch }) => {
+const Navbar = () => {
+  // const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleExpand = () => {
     setIsExpanded(!isExpanded);
-  };
-
-  const handleSearchInputChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    onSearch(query); // Lifted state up to the parent component
   };
 
   return (
@@ -29,8 +26,8 @@ const Navbar = ({ onSearch }) => {
                 className="search-input search-expanded"
                 type="search"
                 placeholder="Search keyword"
-                value={searchQuery}
-                onChange={handleSearchInputChange}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             )}
           </span>

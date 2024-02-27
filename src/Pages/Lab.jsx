@@ -1,7 +1,7 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import AddLab from "../Components/AddLab";
-import Statistics from "../Components/Statistics";
+import LabChart from "../Components/LabChart";
 import LabList from "../Components/LabList";
 
 const Lab = () => {
@@ -18,7 +18,7 @@ const Lab = () => {
               <AddLab />
             </div>
             <div className="">
-              <Statistics />
+              <LabChart />
             </div>
           </div>
 

@@ -15,7 +15,7 @@ div.wrapper {
 }
 
 div.wrapper div.main {
-  background-color: #d9d9d9;
+  background-color: #fff;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -33,11 +33,12 @@ div.nav-bar {
   grid-template-columns: 260px 1fr;
   width: 100%;
   height: 64px;
+  background-color: #d9d9d9;
 }
 
 nav {
   border: 1px solid black;
-  background-color: #fff;
+  /* background-color: #d9d9d9; */
 }
 
 div.nav-bar button {
@@ -53,6 +54,7 @@ div.nav-bar button {
 aside {
   border: 1px solid black;
   width: 260px;
+  background-color: #d9d9d9;
 }
 
 ul.sidebar {
@@ -173,7 +175,7 @@ form button {
 /* Product List */
 div.table-container {
   width: 100%;
-  height: 580px;
+  height: 380px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -210,7 +212,7 @@ div.table-container table tbody tr {
   border: 1px solid #0000008a;
 }
 
-div.table-container table tbody tr td {
+div.table-container table tbody tr td.drug {
   padding: 0 1rem;
   width: 17%;
   max-width: 120px;
@@ -223,8 +225,22 @@ div.table-container table tbody tr td {
   line-height: 24.2px;
 }
 
+div.table-container table tbody tr td.lab {
+  padding: 0 1rem;
+  width: 17%;
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24.2px;
+}
+
 div.table-container table tbody tr td span {
   cursor: pointer;
+  font-size: 15px;
 }
 
 div.table-container table tbody tr td.product-modal {
@@ -265,9 +281,11 @@ div.details p {
 
 /* Statistics */
 div.stats {
-  background-color: #fff;
+  /* background-color: #fff; */
   width: 506px;
   height: 332px;
+  /* border: 2px solid black; */
+  overflow: hidden;
 }
 
 /* scrollbar */
@@ -315,4 +333,7 @@ div.stats {
 span.button {
   font-size: 15px;
   padding: 0.5rem;
+}
+button.editBtn {
+  right: 0;
 }

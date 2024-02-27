@@ -1,12 +1,11 @@
 import { useForm } from "react-hook-form";
 
-import { addDrugThunk } from "../store/features/pharmacy/pharmacySlice";
+import { addDrugThunk, fetchUnitThunk } from "../store/features/pharmacy/pharmacySlice";
 import { useDispatch } from "react-redux";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// import unitOfPricingDb from "../assets/db/unitOfPricing.json";
 
 const AddDrug = () => {
   const { register, handleSubmit, getValues, reset } = useForm();
@@ -19,6 +18,7 @@ const AddDrug = () => {
       dispatch(addDrugThunk(drug));
       const confirmed = confirm("Are you sure you want to add this drug");
       if (confirmed) {
+         dispatch(fetchUnitThunk());
         setTimeout(() => {
           toast.success("Drug added successfully");
         }, 0.003);
@@ -81,6 +81,7 @@ const AddDrug = () => {
               type="number"
               name="price"
               id="price"
+              step="any"
               {...register("price", { required: true })}
             />
           </div>

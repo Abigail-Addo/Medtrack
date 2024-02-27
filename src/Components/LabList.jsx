@@ -1,6 +1,10 @@
 // import React from 'react'
 import { useState, useEffect } from "react";
 
+import { FaRegTrashAlt } from "react-icons/fa";
+import { TiPencil } from "react-icons/ti";
+import { FaEye } from "react-icons/fa";
+
 // import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
@@ -62,7 +66,9 @@ const LabList = () => {
 
   const editSubmit = (lab) => {
     try {
-      const confirmed = confirm("Are you sure you want to update this lab item");
+      const confirmed = confirm(
+        "Are you sure you want to update this lab item"
+      );
       if (confirmed) {
         dispatch(updateLabThunk(lab));
 
@@ -107,41 +113,45 @@ const LabList = () => {
             <tbody>
               {labs.map((lab) => (
                 <tr key={lab._id}>
-                  <td
-                    onClick={() => showProductDetails(lab)}
-                    className="product-modal"
-                  >
+                  <td className="lab">
                     {lab.lab_item}
                   </td>
-                  <td title="Click on the lab item to view full details.">
+                  <td className="lab" title="Click on the lab item to view full details.">
                     {lab.lab_type}
                   </td>
-                  <td title="Click on the lab item to view full details.">
+                  <td className="lab" title="Click on the lab item to view full details.">
                     {lab.category}
                   </td>
-                  <td title="Click on the lab item to view full details.">
+                  <td className="lab" title="Click on the lab item to view full details.">
                     {lab.sub_category}
                   </td>
-                  <td title="Click on the lab item to view full details.">
+                  <td className="lab" title="Click on the lab item to view full details.">
                     {lab.code}
                   </td>
-                  <td title="Click on the lab item to view full details.">
+                  <td className="lab" title="Click on the lab item to view full details.">
                     {lab.price}
                   </td>
-                  <td>
+                  <td className="text-center">
                     <span
                       className="material-symbols-outlined"
                       title="update"
                       onClick={() => editLab(lab)}
                     >
-                      edit
+                      <TiPencil />
                     </span>
                     <span
                       onClick={() => deleteLab(lab._id)}
-                      className="material-symbols-outlined px-3 text-danger"
+                      className="material-symbols-outlined px-1 text-danger"
                       title="delete"
                     >
-                      delete
+                      <FaRegTrashAlt />
+                    </span>
+                    <span
+                      onClick={() => showProductDetails(lab)}
+                      className="material-symbols-outlined"
+                      title="View details"
+                    >
+                      <FaEye />
                     </span>
                   </td>
                 </tr>
@@ -194,6 +204,7 @@ const LabList = () => {
 
       {/* Form to edit product */}
       <Modal
+        size="lg"
         show={showFormModal}
         onHide={() => setShowFormModal(false)}
         aria-labelledby="modal"
@@ -266,7 +277,9 @@ const LabList = () => {
               />
             </div>
 
-            <button type="submit">Update</button>
+            <button type="submit" className="editBtn">
+              Update
+            </button>
           </form>
         </Modal.Body>
       </Modal>

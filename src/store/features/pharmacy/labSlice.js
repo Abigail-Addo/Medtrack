@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   error: null,
   lab: [],
+  labType: []
 };
 
 // add a lab
@@ -41,6 +42,21 @@ export const fetchLabsThunk = createAsyncThunk("labs/allLabs", async (labs) => {
     console.log(error);
   }
 });
+
+// get lab type
+export const fetchLabTypeThunk = createAsyncThunk(
+  "labType/allLabType",
+  async (labType) => {
+    try {
+      const response = await fetch("http://localhost:8081/lab/v1/labType");
+      const data = await response.json(labType);
+      return data;
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 // fetch a single lab
 export const fetchLabThunk = createAsyncThunk("lab/allLab", async (lab) => {
@@ -146,6 +162,19 @@ const labSlice = createSlice({
         state.lab = action.payload;
       })
       .addCase(fetchLabThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // fetching lab type
+      .addCase(fetchLabTypeThunk.pending, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchLabTypeThunk.fulfilled, (state, action) => {
+        state.loading = true;
+        state.labType = action.payload;
+      })
+      .addCase(fetchLabTypeThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

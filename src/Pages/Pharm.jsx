@@ -1,7 +1,7 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import AddDrug from "../Components/AddDrug";
-import Statistics from "../Components/Statistics";
+import PharmChart from "../Components/PharmChart";
 import DrugList from "../Components/DrugList";
 import { useState } from "react";
 
@@ -25,7 +25,7 @@ const Pharm = () => {
               <AddDrug />
             </div>
             <div className="">
-              <Statistics />
+              <PharmChart />
             </div>
           </div>
 
