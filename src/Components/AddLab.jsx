@@ -43,6 +43,7 @@ const AddLab = () => {
               type="text"
               name="labItem"
               id="labItem"
+              autoComplete="off"
               {...register("lab_item", { required: true })}
             />
           </div>
@@ -64,6 +65,7 @@ const AddLab = () => {
               type="text"
               name="category"
               id="category"
+              autoComplete="off"
               {...register("category", { required: true })}
             />
           </div>
@@ -73,6 +75,7 @@ const AddLab = () => {
               type="text"
               name="subCategory"
               id="subCategory"
+              autoComplete="off"
               {...register("sub_category", { required: true })}
             />
           </div>
@@ -82,6 +85,7 @@ const AddLab = () => {
               type="text"
               name="code"
               id="code"
+              autoComplete="off"
               {...register("code", { required: true })}
             />
           </div>
@@ -92,6 +96,7 @@ const AddLab = () => {
               type="number"
               name="price"
               id="price"
+              autoComplete="off"
               {...register("price", { required: true })}
             />
           </div>

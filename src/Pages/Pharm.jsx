@@ -3,18 +3,14 @@ import Navbar from "../Components/Navbar";
 import AddDrug from "../Components/AddDrug";
 import PharmChart from "../Components/PharmChart";
 import DrugList from "../Components/DrugList";
-import { useState } from "react";
 
+// eslint-disable-next-line react/prop-types
 const Pharm = () => {
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
   
   return (
     <>
-      <Navbar onSearch={handleSearch} />
+      <Navbar />
 
       <div className="wrapper">
         <Sidebar />
@@ -30,7 +26,8 @@ const Pharm = () => {
           </div>
 
           <div className="py-5">
-            <DrugList searchQuery={searchQuery} />
+            {/* Pass searchQuery as a prop to DrugList component */}
+            <DrugList />
           </div>
         </div>
       </div>

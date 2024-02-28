@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 
-import { addDrugThunk, fetchUnitThunk } from "../store/features/pharmacy/pharmacySlice";
+import {
+  addDrugThunk,
+  fetchUnitThunk,
+} from "../store/features/pharmacy/pharmacySlice";
 import { useDispatch } from "react-redux";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 
 const AddDrug = () => {
   const { register, handleSubmit, getValues, reset } = useForm();
@@ -18,7 +20,7 @@ const AddDrug = () => {
       dispatch(addDrugThunk(drug));
       const confirmed = confirm("Are you sure you want to add this drug");
       if (confirmed) {
-         dispatch(fetchUnitThunk());
+        dispatch(fetchUnitThunk());
         setTimeout(() => {
           toast.success("Drug added successfully");
         }, 0.003);
@@ -44,6 +46,7 @@ const AddDrug = () => {
               type="text"
               name="drugName"
               id="drugName"
+              autoComplete="off"
               {...register("drug_name", { required: true })}
             />
           </div>
@@ -53,6 +56,7 @@ const AddDrug = () => {
               type="text"
               name="desc"
               id="desc"
+              autoComplete="off"
               {...register("description", { required: true })}
             />
           </div>
@@ -62,6 +66,7 @@ const AddDrug = () => {
               type="text"
               name="drugCode"
               id="drugCode"
+              autoComplete="off"
               {...register("drug_code", { required: true })}
             />
           </div>
@@ -71,6 +76,7 @@ const AddDrug = () => {
               list="unitOfPricing"
               name="unitOfPricing"
               id="unitOfPricing"
+              autoComplete="off"
               {...register("unit_of_pricing", { required: true })}
             />
           </div>
@@ -81,12 +87,15 @@ const AddDrug = () => {
               type="number"
               name="price"
               id="price"
+              min={0}
               step="any"
+              autoComplete="off"
               {...register("price", { required: true })}
             />
           </div>
-
-          <button type="submit">Add</button>
+          <div className="formControl">
+            <button type="submit">Add</button>
+          </div>
         </form>
       </div>
     </>

@@ -51,7 +51,7 @@ export const fetchDrugsThunk = createAsyncThunk(
 
 // get unit of pricing
 export const fetchUnitThunk = createAsyncThunk(
-  "units/allUnits",
+  "drugs/allUnits",
   async (units, thunkAPI) => {
     try {
       const response = await fetch("http://localhost:8081/pharm/v1/unit-of-pricing");
@@ -139,9 +139,9 @@ export const updateDrugThunk = createAsyncThunk(
 // search drugs
 export const searchDrugsThunk = createAsyncThunk(
   "drugs/searchDrugs",
-  async (searchTerm, thunkAPI) => {
+  async (search, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:8081/pharm/v1/search?search=${searchTerm}`);
+      const response = await fetch(`http://localhost:8081/pharm/v1/search?search=${search}`);
       const data = await response.json();
       return data;
     } catch (error) {

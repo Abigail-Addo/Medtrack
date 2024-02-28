@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useForm } from "react-hook-form";
 
+// eslint-disable-next-line react/prop-types
 const DrugList = () => {
   const [showModal, setShowModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
@@ -32,7 +33,7 @@ const DrugList = () => {
   const { register, setValue, handleSubmit } = useForm();
 
   useEffect(() => {
-    dispatch(fetchDrugsThunk());
+      dispatch(fetchDrugsThunk());
   }, [dispatch]);
 
   const deletedrug = async (drug) => {
@@ -112,24 +113,31 @@ const DrugList = () => {
             <tbody>
               {drugs.map((drug) => (
                 <tr key={drug._id}>
-                  <td className="drug" title={drug.drug_name}>
+                  <td className="drug" title={drug.drug_name} style={{ width: '20%' }}>
                     {drug.drug_name}
                   </td>
-                  <td className="drug" title={drug.description}>
+                  <td className="drug" title={drug.description} style={{ width: '45%' }}>
                     {drug.description}
                   </td>
-                  <td className="drug" title={drug.drug_code}>
+                  <td className="drug" title={drug.drug_code} style={{ width: '10%' }}>
                     {drug.drug_code}
                   </td>
-                  <td className="drug" title={drug.unit_of_pricing}>
+                  <td className="drug" title={drug.unit_of_pricing} style={{ width: '10%' }}>
                     {drug.unit_of_pricing}
                   </td>
-                  <td className="drug" title={drug.price}>
+                  <td className="drug" title={drug.price} style={{ width: '10%' }}>
                     {drug.price}
                   </td>
-                  <td className="px-4">
+                  <td className="drug" style={{ width: '17%' }}>
                     <span
+                      onClick={() => showProductDetails(drug)}
                       className="material-symbols-outlined"
+                      title="View details"
+                    >
+                      <FaEye />
+                    </span>
+                    <span
+                      className="material-symbols-outlined px-2"
                       title="update"
                       onClick={() => editDrug(drug)}
                     >
@@ -137,17 +145,10 @@ const DrugList = () => {
                     </span>
                     <span
                       onClick={() => deletedrug(drug._id)}
-                      className="material-symbols-outlined px-1 text-danger"
+                      className="material-symbols-outlined text-danger"
                       title="delete"
                     >
                       <FaRegTrashAlt />
-                    </span>
-                    <span
-                      onClick={() => showProductDetails(drug)}
-                      className="material-symbols-outlined"
-                      title="View details"
-                    >
-                      <FaEye />
                     </span>
                   </td>
                 </tr>
@@ -258,7 +259,9 @@ const DrugList = () => {
               />
             </div>
 
-            <button type="submit" className="editBtn">Update</button>
+            <button type="submit" className="editBtn">
+              Update
+            </button>
           </form>
         </Modal.Body>
       </Modal>

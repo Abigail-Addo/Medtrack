@@ -1,6 +1,6 @@
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { IoSpeedometerOutline } from "react-icons/io5";
-import { IoIosLogOut } from "react-icons/io";
+// import { IoIosLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { AiOutlineMedicineBox } from "react-icons/ai";
@@ -35,7 +35,6 @@ const Sidebar = () => {
             <NavLink
               to="/report"
               activeclassname="active"
-              className="border-bottom border-dark"
             >
               <HiOutlineDocumentReport />
               <p className="px-2">Report</p>
@@ -48,45 +47,17 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/settings" activeclassname="active">
-              <IoSettingsOutline />
-              <p className="px-2">Settings</p>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/settings"
-              activeclassname="active"
-              className="border-bottom border-dark"
-            >
-              <IoSettingsOutline />
-              <p className="px-2">Settings</p>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/settings" activeclassname="active">
-              <IoSettingsOutline />
-              <p className="px-2">Settings</p>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/settings" activeclassname="active">
-              <IoSettingsOutline />
-              <p className="px-2">Settings</p>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/help" activeclassname="active" className="border-bottom border-dark">
+            <NavLink to="/help" activeclassname="active">
               <MdOutlineHelpCenter />
               <p className="px-2">Help/Support</p>
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <Link to="/logout">
               <IoIosLogOut />
               <p className="px-2">Logout</p>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </aside>
     </>
