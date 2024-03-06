@@ -22,7 +22,7 @@ div.wrapper div.main {
 
 div.section {
   width: 100%;
-  /* height: 65%; */
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
@@ -33,7 +33,7 @@ div.nav-bar {
   grid-template-columns: 260px 1fr;
   width: 100%;
   height: 64px;
-  background-color: #d9d9d9;
+  background-color: #2A6A96;
 }
 
 div.nav-bar button {
@@ -49,25 +49,38 @@ header {
   display: flex;
   justify-content: center;
   align-self: center;
-  padding: 0;
+  padding-left: 0.5rem;
   margin: 0;
 }
 
 header h2 {
-  color: #3B54A5;
+  color: #fff;
+  font-weight: 400;
+  font-size: 20px;
   padding: 0;
   margin: 0;
 }
 
+nav a {
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+}
+
+nav a:hover, nav a:focus {
+  color: rgba(9, 161, 112, 0.7);
+}
 /* Sidebar */
 aside {
   width: 200px;
-  background-color: #d9d9d9;
+  background-color: #2A6A96;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 ul.sidebar {
   width: 100%;
-  height: 50%;
   display: flex;
   flex-direction: column;
   font-size: 1.2rem;
@@ -84,7 +97,7 @@ ul.sidebar li {
 
 ul.sidebar li a {
   text-decoration: none;
-  color: #000;
+  color: #fff;
   padding-left: 0.5rem;
   position: relative;
   width: 100%;
@@ -98,18 +111,9 @@ ul.sidebar li a:hover {
 }
 
 ul.sidebar li a.active {
-  background-color: #ffbff9;
+  background-color: #3F7BC4;
   padding-left: 1rem;
 }
-
-/* .active::before {  
-  content: "";
-  border-left: 6px solid green;
-  position: absolute;
-  top: 0;
-  left: 3%;
-  height: 100%;
-} */
 
 /* Add product form */
 form {
@@ -119,7 +123,6 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: start;
 }
 
 form div.formControl {
@@ -135,55 +138,77 @@ div.section.form {
 
 form div.formControl label {
   background-color: #fff;
-  border: 1px solid black;
+  border: 2px solid #d4d4d4;
+  border-right: 0;
+  border-bottom: 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 1.8rem;
-  width: 242px;
+  padding: 0 1rem;
+  width: 150px;
   height: 80px;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 24.2px;
 }
 
 form div.formControl input {
-  width: 393px;
+  width: 500px;
   height: 80px;
   font-size: 15px;
-  font-weight: 300;
   padding: 0 1.8rem;
-  font-style: italic;
   line-height: 24.2px;
+  border: 2px solid #d4d4d4;
+  border-bottom: 0;
+  outline: 0;
+  color: #000;
+}
+
+form div.formControl input#price, form div.formControl label.price  {
+  border-bottom: 2px solid #d4d4d4;
 }
 
 form div.formControl select {
-  width: 393px;
+  width: 500px;
   height: 80px;
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 15px;
   padding: 0 1.8rem;
-  font-style: italic;
   line-height: 24.2px;
+  border: 2px solid #d4d4d4;
+  border-bottom: 0;
+  outline: 0;
+  color: #000;
 }
 
 form div.formControl button {
   border: 0;
   outline: 0;
   cursor: pointer;
-  background-color: #000;
+  background-color: #30609c;
   color: #fff;
   padding: 0.75rem 1.75rem;
   display: flex;
   margin: 1rem 0 0 auto;
 }
 
+form div.formControl .select {
+  /* border: 2px solid black; */
+  height: 90px;
+  width: 77%;
+  padding: 0;
+  margin: 0;
+  /* overflow: hidden; */
+}
+
+form div.formControl .edit-select {
+  width: 65.2%;
+}
+
 /* Product List */
 div.table-container {
   width: 100%;
-  height: 380px;
+  height: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
 }
 
 div.table-container table {
@@ -193,9 +218,8 @@ div.table-container table {
 }
 
 div.table-container table thead {
-  height: 71px;
+  height: 50px;
   width: 100%;
-  border: 1px solid #000000a3;
   position: sticky;
   top: 0;
   left: 0;
@@ -204,10 +228,11 @@ div.table-container table thead {
 
 div.table-container table thead tr th {
   padding: 0 1rem 0 1rem;
-  background-color: #d9d9d96b;
-  font-weight: 400;
+  background-color: #1E7F88;
+  font-weight: 500;
   font-size: 15px;
-  line-height: 24.2px;
+  line-height: 20px;
+  color: #fff;
 }
 
 div.table-container table tbody {
@@ -215,13 +240,11 @@ div.table-container table tbody {
 }
 
 div.table-container table tbody tr {
-  height: 68px;
-  border: 1px solid #0000008a;
+  height: 55px;
 }
 
 div.table-container table tbody tr td.drug {
   padding: 0 1rem;
-  /* width: 17%; */
   max-width: 120px;
   overflow: hidden;
   white-space: nowrap;
@@ -250,15 +273,8 @@ div.table-container table tbody tr td span {
   font-size: 15px;
 
 }
-
-div.table-container table tbody tr td.product-modal {
-  cursor: pointer;
-}
-
-div.table-container table tbody tr td.product-modal:hover,
-div.table-container table tbody tr td.product-modal:focus {
-  text-decoration: underline;
-  color: #0000ff;
+table tbody tr:nth-child(even) {
+  background-color: #d9d9d96b;
 }
 
 figure img {
@@ -289,11 +305,11 @@ div.details p {
 
 /* Statistics */
 div.stats {
-  /* background-color: #fff; */
   width: 506px;
-  height: 332px;
-  /* border: 2px solid black; */
-  overflow: hidden;
+  height: 100%;
+  position: absolute;
+  right: 8%;
+  top: 10%;
 }
 
 /* scrollbar */
@@ -327,7 +343,7 @@ div.stats {
   opacity: 0;
   outline: none;
   border: none;
-  background-color: #D9D9D9;
+  background-color: #fff;
 }
 
 .search-expanded {
@@ -336,11 +352,11 @@ div.stats {
   opacity: 1;
   padding: 0 0.5rem;
 }
-
+span.search {
+  box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.24), 0 1.5px 3px rgba(0, 0, 0, 0.32);
+}
 span.button {
   font-size: 15px;
   padding: 0.5rem;
-}
-button.editBtn {
-  right: 0;
+  
 }

@@ -1,45 +1,33 @@
-import { NavLink, useLocation } from "react-router-dom";
-import { IoSpeedometerOutline } from "react-icons/io5";
-// import { IoIosLogOut } from "react-icons/io";
+import { NavLink } from "react-router-dom";
 import { IoSettingsOutline } from "react-icons/io5";
-import { HiOutlineDocumentReport } from "react-icons/hi";
+
 import { AiOutlineMedicineBox } from "react-icons/ai";
 import { MdOutlineHelpCenter } from "react-icons/md";
 
 // eslint-disable-next-line react/prop-types
 const Sidebar = () => {
-  const location = useLocation();
-  const isPharmacy = location.pathname.includes("/pharmacy");
 
   return (
     <>
       <aside>
-        <ul className="sidebar">
-          <li>
-            <NavLink to="/dashboard" activeclassname="active">
-              <IoSpeedometerOutline />
-              <p className="px-2">Dashboard</p>
-            </NavLink>
-          </li>
+        <ul className="sidebar pt-5 h-25">
           <li>
             <NavLink
               exact="true"
-              to={isPharmacy ? "/pharmacy" : "/laboratory"}
+              to="/pharmacy"
               activeclassname="active"
             >
-              <AiOutlineMedicineBox />
-              <p className="px-2">Inventory</p>
+              <p className="px-2">Pharmacy</p>
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/report"
-              activeclassname="active"
-            >
-              <HiOutlineDocumentReport />
-              <p className="px-2">Report</p>
+            <NavLink to="/laboratory" activeclassname="active">
+              <AiOutlineMedicineBox />
+              <p className="px-2">Laboratory</p>
             </NavLink>
           </li>
+        </ul>
+        <ul className="sidebar pt-5 h-25">
           <li>
             <NavLink to="/settings" activeclassname="active">
               <IoSettingsOutline />
@@ -52,12 +40,6 @@ const Sidebar = () => {
               <p className="px-2">Help/Support</p>
             </NavLink>
           </li>
-          {/* <li>
-            <Link to="/logout">
-              <IoIosLogOut />
-              <p className="px-2">Logout</p>
-            </Link>
-          </li> */}
         </ul>
       </aside>
     </>

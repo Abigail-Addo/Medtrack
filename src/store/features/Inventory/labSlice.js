@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   labs: [],
+  lab: [],
+  labType: [],
   loading: false,
   error: null,
-  lab: [],
-  labType: []
 };
 
 // add a lab
-export const addlabThunk = createAsyncThunk("labs/addLab", async (labs) => {
+export const addlabThunk = createAsyncThunk("labs/addLab", async (labs, thunkAPI) => {
   try {
     const response = await fetch("http://localhost:8081/lab/v1/lab", {
       method: "POST",
@@ -26,40 +26,92 @@ export const addlabThunk = createAsyncThunk("labs/addLab", async (labs) => {
       }),
     });
     const data = await response.json(labs);
+
+    if (response.status === 400) {
+      return thunkAPI.rejectWithValue(data.message);
+    }
+
+    if (response.status === 500) {
+      return thunkAPI.rejectWithValue(data.message);
+    }
+
     return data;
   } catch (error) {
     console.log(error);
+    return thunkAPI.rejectWithValue(error.message);
   }
 });
 
+// fetching all labs by lab type
+export const fetchLabsByTypeThunk = createAsyncThunk("labs/getLabsByType", async (labType, thunkAPI ) => {
+    try {
+      const response = await fetch("http://localhost:8081/lab/v1/getlabType", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lab_type: labType,
+        }),
+      });
+
+      if (response.status === 400) {
+        return thunkAPI.rejectWithValue(data.message);
+      }
+
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(data.message);
+      }
+
+      const data = await response.json();
+
+      const labsByType = data.map((lab) => ({
+        category: lab.category,
+        categories: lab.categories || [],
+      }));
+      
+      return labsByType;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 // fetch all labs
-export const fetchLabsThunk = createAsyncThunk("labs/allLabs", async (labs) => {
+export const fetchLabsThunk = createAsyncThunk("labs/allLabs", async (labs, thunkAPI) => {
   try {
     const response = await fetch("http://localhost:8081/lab/v1/labs");
     const data = await response.json(labs);
-    return data;
+
+    
+    const sortedData = data.sort((a, b) =>
+    a.lab_item.localeCompare(b.lab_item)
+  );
+
+    return sortedData;
   } catch (error) {
     console.log(error);
+    return thunkAPI.rejectWithValue(error.message);
   }
 });
 
 // get lab type
 export const fetchLabTypeThunk = createAsyncThunk(
-  "labType/allLabType",
-  async (labType) => {
+  "labs/allLabType",
+  async (labType, thunkAPI) => {
     try {
       const response = await fetch("http://localhost:8081/lab/v1/labType");
       const data = await response.json(labType);
       return data;
-
     } catch (error) {
       console.log(error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
 // fetch a single lab
-export const fetchLabThunk = createAsyncThunk("lab/allLab", async (lab) => {
+export const fetchLabThunk = createAsyncThunk("labs/allLab", async (lab, thunkAPI) => {
   try {
     const response = await fetch(`http://localhost:8081/lab/v1/lab/${lab}`);
     // eslint-disable-next-line no-unused-vars
@@ -67,11 +119,12 @@ export const fetchLabThunk = createAsyncThunk("lab/allLab", async (lab) => {
     return data;
   } catch (error) {
     console.log(error);
+    return thunkAPI.rejectWithValue(error.message);
   }
 });
 
 // delete a lab
-export const deleteLabThunk = createAsyncThunk("labs/deleteLab", async (id) => {
+export const deleteLabThunk = createAsyncThunk("labs/deleteLab", async (id, thunkAPI) => {
   try {
     const response = await fetch(`http://localhost:8081/lab/v1/lab/${id}`, {
       method: "DELETE",
@@ -85,13 +138,12 @@ export const deleteLabThunk = createAsyncThunk("labs/deleteLab", async (id) => {
     return id;
   } catch (error) {
     console.log(error);
+    return thunkAPI.rejectWithValue(error.message);
   }
 });
 
 // update a lab
-export const updateLabThunk = createAsyncThunk(
-  "labs/updateLab",
-  async (lab) => {
+export const updateLabThunk = createAsyncThunk("labs/updateLab", async (lab, thunkAPI) => {
     try {
       const response = await fetch(
         `http://localhost:8081/lab/v1/lab/${lab._id}`,
@@ -114,6 +166,23 @@ export const updateLabThunk = createAsyncThunk(
       return labUpdate;
     } catch (error) {
       console.log(error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// search labs
+export const searchLabsThunk = createAsyncThunk(
+  "labs/searchLabs",
+  async (search, thunkAPI) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/lab/v1/search-labs?search=${search}`
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -148,6 +217,19 @@ const labSlice = createSlice({
       .addCase(fetchLabsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+
+      // fetching all labs by lab type
+      .addCase(fetchLabsByTypeThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchLabsByTypeThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.labs = action.payload;
+      })
+      .addCase(fetchLabsByTypeThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
 
       // //fetching a single lab
@@ -205,7 +287,20 @@ const labSlice = createSlice({
       .addCase(updateLabThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      });
+      })
+
+      // search labs
+      .addCase(searchLabsThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(searchLabsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.labs = action.payload;
+      })
+      .addCase(searchLabsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ? action.payload : "Search failed";
+      })
   },
 });
 

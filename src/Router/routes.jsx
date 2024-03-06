@@ -10,10 +10,6 @@ const Router = () => {
       element: <Home />,
     },
     {
-      path: "/home",
-      element: <Home />,
-    },
-    {
       path: "/pharmacy",
       element: <Pharm />,
     },

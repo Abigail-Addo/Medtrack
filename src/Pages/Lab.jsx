@@ -1,8 +1,8 @@
-import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import AddLab from "../Components/AddLab";
-import LabChart from "../Components/LabChart";
-import LabList from "../Components/LabList";
+import AddLab from "../Components/Lab/AddLab";
+import LabChart from "../Components/Lab/LabChart";
+import LabList from "../Components/Lab/LabList";
+import Sidebar from "../Components/Sidebar";
 
 const Lab = () => {
   return (
@@ -12,13 +12,13 @@ const Lab = () => {
       <div className="wrapper">
         <Sidebar />
 
-        <div className="main">
-          <div className="section pt-5 form">
+        <div className="main container">
+          <div className="section pt-5">
             <div className="">
-              <AddLab />
+            <AddLab />
             </div>
-            <div className="">
-              <LabChart />
+            <div>
+            <LabChart />
             </div>
           </div>
 

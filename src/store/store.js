@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pharmacyReducer from "./features/pharmacy/pharmacySlice";
-import labReducer from "./features/pharmacy/labSlice";
+import pharmacyReducer from "./features/Inventory/pharmacySlice";
+import labReducer from "./features/Inventory/labSlice";
 
 export const store = configureStore({
   reducer: {

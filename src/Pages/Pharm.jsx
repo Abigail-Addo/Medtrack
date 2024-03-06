@@ -1,32 +1,29 @@
-import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import AddDrug from "../Components/AddDrug";
-import PharmChart from "../Components/PharmChart";
-import DrugList from "../Components/DrugList";
+import AddDrug from "../Components/Pharm/AddDrug";
+import PharmChart from "../Components/Pharm/PharmChart";
+import DrugList from "../Components/Pharm/DrugList";
+import Sidebar from "../Components/Sidebar";
 
-// eslint-disable-next-line react/prop-types
 const Pharm = () => {
-
-  
   return (
     <>
       <Navbar />
 
+
       <div className="wrapper">
         <Sidebar />
 
-        <div className="main">
+        <div className="main container">
           <div className="section pt-5">
             <div className="">
               <AddDrug />
             </div>
-            <div className="">
+            <div>
               <PharmChart />
             </div>
           </div>
 
           <div className="py-5">
-            {/* Pass searchQuery as a prop to DrugList component */}
             <DrugList />
           </div>
         </div>

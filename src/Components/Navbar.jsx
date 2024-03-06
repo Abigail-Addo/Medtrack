@@ -1,47 +1,32 @@
-import { Link } from "react-router-dom";
-import { BiSearch } from "react-icons/bi";
-import { useState } from "react";
-import Logo from "../assets/images/logo.png";
+import { NavLink, useLocation } from "react-router-dom";
+import Logo from "../assets/images/brand_MedTrack.svg";
 
+const Navbar = () => {
+  const location = useLocation();
 
-// eslint-disable-next-line react/prop-types
-const Navbar = ({ onSearch }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  // Function to determine link text based on the current route
+  const getLinkText = () => {
+    if (location.pathname === "/") {
 
-  const handleExpand = () => {
-    setIsExpanded(!isExpanded);
+      return "Inventory";
+    } else if (location.pathname === "/inventory") {
 
-    // Trigger the search when the search icon is clicked
-    onSearch(searchQuery);
+      return "Home";
+    }
+    return "Home";
   };
 
   return (
-    <div className="nav-bar">
+    <div className="nav-bar d-flex justify-content-between align-items-center">
       <header>
-       <img src={Logo} alt="Logo" className="px-2"/>
-       <h2>Medtrack</h2>
+        <img src={Logo} alt="Logo" className="px-2" />
+        <h2>MedTrack</h2>
       </header>
-      <nav className="d-flex justify-content-between align-items-center px-4">
-        <div>
-          <span className="text-dark bg-#D9D9D9 border border-dark button">
-            <BiSearch onClick={handleExpand} role="button" />
-            {isExpanded && (
-              <input
-                className="search-input search-expanded"
-                type="search"
-                placeholder="Search keyword"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} // Update the state when the input changes
-              />
-            )}
-          </span>
-        </div>
-        <Link to="/home">Back to Home</Link>
+      <nav className="px-4">
+        <NavLink to={location.pathname === "/" ? "/pharmacy" : "/"}>{getLinkText()}</NavLink>
       </nav>
     </div>
   );
 };
 
 export default Navbar;
-

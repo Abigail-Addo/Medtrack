@@ -2,49 +2,64 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   drugs: [],
+  drug: [],
+  unitOfPricing: [],
   loading: false,
   error: null,
-  drug: [],
-  unitOfPricing: []
 };
 
 // add a drug
-export const addDrugThunk = createAsyncThunk("drugs/addDrug", async (drugs, thunkAPI) => {
-  try {
-    const response = await fetch("http://localhost:8081/pharm/v1/drug", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        drug_name: drugs.drug_name,
-        description: drugs.description,
-        drug_code: drugs.drug_code,
-        unit_of_pricing: drugs.unit_of_pricing,
-        price: drugs.price,
-      }),
-    });
-    const data = await response.json(drugs);
-    return data;
+export const addDrugThunk = createAsyncThunk(
+  "drugs/addDrug",
+  async (drugs, thunkAPI) => {
+    try {
+      const response = await fetch("http://localhost:8081/pharm/v1/drug", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          drug_name: drugs.drug_name,
+          description: drugs.description,
+          drug_code: drugs.drug_code,
+          unit_of_pricing: drugs.unit_of_pricing,
+          price: drugs.price,
+        }),
+      });
+      const data = await response.json(drugs);
 
-  } catch (error) {
-    console.log(error);
-    return thunkAPI.rejectWithValue(error.message)
+      if (response.status === 400) {
+        return thunkAPI.rejectWithValue(data.message);
+      }
+
+      if (response.status === 500) {
+        return thunkAPI.rejectWithValue(data.message);
+      }
+
+
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // fetch all drugs
 export const fetchDrugsThunk = createAsyncThunk(
   "drugs/allDrugs",
-  async (drugs,thunkAPI) => {
+  async (drugs, thunkAPI) => {
     try {
       const response = await fetch("http://localhost:8081/pharm/v1/drugs");
       const data = await response.json(drugs);
-      return data;
 
+      const sortedData = data.sort((a, b) =>
+        a.drug_name.localeCompare(b.drug_name)
+      );
+      return sortedData;
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue(error.message)
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -54,38 +69,43 @@ export const fetchUnitThunk = createAsyncThunk(
   "drugs/allUnits",
   async (units, thunkAPI) => {
     try {
-      const response = await fetch("http://localhost:8081/pharm/v1/unit-of-pricing");
+      const response = await fetch(
+        "http://localhost:8081/pharm/v1/unit-of-pricing"
+      );
       const data = await response.json(units);
       return data;
-
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue(error.message)
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
 // fetch a single drug
-export const fetchDrugThunk = createAsyncThunk("drug/allDrug", async (drug, thunkAPI) => {
-  try {
-    const response = await fetch(`http://localhost:8081/pharm/v1/drug/${drug}`);
+export const fetchDrugThunk = createAsyncThunk(
+  "drugs/aDrug",
+  async (drug, thunkAPI) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/pharm/v1/drug/${drug}`
+      );
 
-    const data = await response.json();
-    return data;
-
-  } catch (error) {
-    console.log(error);
-    return thunkAPI.rejectWithValue(error.message)
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // delete a drug
 export const deleteDrugThunk = createAsyncThunk(
   "drugs/deleteDrug",
-  async (id, thunkAPI) => {
+  async (drug, thunkAPI) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/pharm/v1/drug/${id}`,
+        `http://localhost:8081/pharm/v1/drug/${drug}`,
         {
           method: "DELETE",
           headers: {
@@ -96,12 +116,11 @@ export const deleteDrugThunk = createAsyncThunk(
 
       // eslint-disable-next-line no-unused-vars
       const deleteDrug = await response.json();
-      return id;
-
+      return drug;
     } catch (error) {
       console.log(error);
-      return thunkAPI.rejectWithValue(error.message)
-  }
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
@@ -126,13 +145,12 @@ export const updateDrugThunk = createAsyncThunk(
           }),
         }
       );
-      const drugUpdate = await response.json();
-      return drugUpdate;
-
+      const result = await response.json();
+      return result;
     } catch (error) {
       console.log(error);
-    return thunkAPI.rejectWithValue(error.message)
-  }
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
@@ -141,12 +159,14 @@ export const searchDrugsThunk = createAsyncThunk(
   "drugs/searchDrugs",
   async (search, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:8081/pharm/v1/search?search=${search}`);
+      const response = await fetch(
+        `http://localhost:8081/pharm/v1/search-drugs?search=${search}`
+      );
       const data = await response.json();
       return data;
     } catch (error) {
-    return thunkAPI.rejectWithValue(error.message)
-  }
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
@@ -201,9 +221,6 @@ const pharmacySlice = createSlice({
       })
       .addCase(fetchDrugThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.drugs = state.drugs.map((drug) =>
-          drug._id === action.payload._id ? action.payload : drug
-        );
         state.drug = action.payload;
       })
       .addCase(fetchDrugThunk.rejected, (state, action) => {
@@ -239,7 +256,7 @@ const pharmacySlice = createSlice({
         state.error = action.error.message;
       })
 
-       // search drugs
+      // search drugs
       .addCase(searchDrugsThunk.pending, (state) => {
         state.loading = true;
       })
@@ -250,9 +267,8 @@ const pharmacySlice = createSlice({
       .addCase(searchDrugsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ? action.payload : "Search failed";
-      })
+      });
   },
 });
-
 
 export default pharmacySlice.reducer;

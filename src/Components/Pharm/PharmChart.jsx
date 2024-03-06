@@ -1,39 +1,39 @@
 import { Chart } from "react-google-charts";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLabTypeThunk } from "../store/features/pharmacy/labSlice";
+import { fetchUnitThunk } from "../../store/features/Inventory/pharmacySlice";
 
-const LabChart = () => {
+const PharmChart = () => {
   const dispatch = useDispatch();
-  const labType = useSelector((state) => state.laboratory.labType);
+  const unitOfPricing = useSelector((state) => state.pharmacy.unitOfPricing);
 
   useEffect(() => {
-    dispatch(fetchLabTypeThunk());
+    dispatch(fetchUnitThunk());
   }, [dispatch]);
 
-  const data = Object.entries(labType).map(([label, value]) => [
+  const data = Object.entries(unitOfPricing).map(([label, value]) => [
     label,
     value,
   ]);
 
   const options = {
-    // title: "My Daily Activities",
     is3D: true,
   };
 
   // Add the header for the columns
-  const dataWithHeader = [["LabType", "Count"], ...data];
+  const dataWithHeader = [["Unit of Pricing", "Count"], ...data];
 
   return (
     <>
-      <div className="container">
+      <div className="container ">
         <div className="stats">
+          <h4 className="text-center">Unit of Pricing Distribution</h4>
           <Chart
             chartType="PieChart"
             data={dataWithHeader}
             options={options}
-            width={"100%"}
-            height={"400px"}
+            width={800}
+            height={450}
           />
         </div>
       </div>
@@ -41,4 +41,4 @@ const LabChart = () => {
   );
 };
 
-export default LabChart;
+export default PharmChart;
