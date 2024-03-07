@@ -93,7 +93,7 @@ const DrugList = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }; 
 
   // functon for the edit form
   const editSubmit = async (drug) => {

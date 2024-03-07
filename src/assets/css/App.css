@@ -1,4 +1,3 @@
-
 #root {
   width: 100%;
   height: 100%;
@@ -33,7 +32,7 @@ div.nav-bar {
   grid-template-columns: 260px 1fr;
   width: 100%;
   height: 64px;
-  background-color: #2A6A96;
+  background-color: #2a6a96;
 }
 
 div.nav-bar button {
@@ -67,13 +66,14 @@ nav a {
   text-decoration: none;
 }
 
-nav a:hover, nav a:focus {
+nav a:hover,
+nav a:focus {
   color: rgba(9, 161, 112, 0.7);
 }
 /* Sidebar */
 aside {
   width: 200px;
-  background-color: #2A6A96;
+  background-color: #2a6a96;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -111,7 +111,7 @@ ul.sidebar li a:hover {
 }
 
 ul.sidebar li a.active {
-  background-color: #3F7BC4;
+  background-color: #3f7bc4;
   padding-left: 1rem;
 }
 
@@ -164,7 +164,8 @@ form div.formControl input {
   color: #000;
 }
 
-form div.formControl input#price, form div.formControl label.price  {
+form div.formControl input#price,
+form div.formControl label.price {
   border-bottom: 2px solid #d4d4d4;
 }
 
@@ -214,7 +215,6 @@ div.table-container {
 div.table-container table {
   width: 98%;
   margin: 0.5rem auto 0;
-
 }
 
 div.table-container table thead {
@@ -228,7 +228,7 @@ div.table-container table thead {
 
 div.table-container table thead tr th {
   padding: 0 1rem 0 1rem;
-  background-color: #1E7F88;
+  background-color: #1e7f88;
   font-weight: 500;
   font-size: 15px;
   line-height: 20px;
@@ -271,7 +271,6 @@ div.table-container table tbody tr td.lab {
 div.table-container table tbody tr td span {
   cursor: pointer;
   font-size: 15px;
-
 }
 table tbody tr:nth-child(even) {
   background-color: #d9d9d96b;
@@ -358,5 +357,30 @@ span.search {
 span.button {
   font-size: 15px;
   padding: 0.5rem;
-  
 }
+
+.right {
+  background-image: url("../images/pharm2.jpg");
+  background-repeat: no repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.right h1 {
+  font-size: 50px;
+  font-weight: bold;
+  width: 50%;
+}
+
+.right p {
+  font-size: 30px;
+  width: 50%;
+}
+
