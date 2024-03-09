@@ -366,6 +366,11 @@ span.button {
   background-position: center;
   width: 100%;
   height: 100%;
+}
+
+.text {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -373,14 +378,70 @@ span.button {
   text-align: center;
 }
 
-.right h1 {
+.right .text h1 {
   font-size: 50px;
   font-weight: bold;
   width: 50%;
 }
 
-.right p {
+.right .text p {
   font-size: 30px;
   width: 50%;
+}
+
+div.media-queries {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .right .text h1 {
+    font-size: 30px;
+    font-weight: bold;
+    width: 100%;
+  }
+  
+  .right .text p {
+    font-size: 20px;
+    width: 100%;
+  }
+
+  div.wrapper {
+    display: none;
+  }
+
+  div.media-queries {
+    display: flex;
+  }
+
+  div.media-queries p {
+    font-size: 20px;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .right .text h1 {
+    font-size: 30px;
+    font-weight: bold;
+    width: 100%;
+  }
+  
+  .right .text p {
+    font-size: 20px;
+    width: 100%;
+  }
+
+  div.wrapper {
+    display: none;
+  }
+
+  div.media-queries {
+    display: flex;
+  }
+
+  div.media-queries p {
+    font-size: 20px;
+    width: 100%;
+  }
 }
 

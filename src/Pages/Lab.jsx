@@ -9,6 +9,12 @@ const Lab = () => {
     <>
       <Navbar />
 
+      
+      <div className="media-queries">
+        <p>Kindly use a desktop to view this inventory</p>
+      </div>
+
+
       <div className="wrapper">
         <Sidebar />
 
