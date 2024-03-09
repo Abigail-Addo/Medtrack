@@ -13,7 +13,7 @@ export const addDrugThunk = createAsyncThunk(
   "drugs/addDrug",
   async (drugs, thunkAPI) => {
     try {
-      const response = await fetch("http://localhost:8081/pharm/v1/drug", {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/drug`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export const fetchDrugsThunk = createAsyncThunk(
   "drugs/allDrugs",
   async (drugs, thunkAPI) => {
     try {
-      const response = await fetch("http://localhost:8081/pharm/v1/drugs");
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/drugs`);
       const data = await response.json(drugs);
 
       const sortedData = data.sort((a, b) =>
@@ -68,7 +68,7 @@ export const fetchUnitThunk = createAsyncThunk(
   async (units, thunkAPI) => {
     try {
       const response = await fetch(
-        "http://localhost:8081/pharm/v1/unit-of-pricing"
+        `${import.meta.env.VITE_APP_API_URL}/v1/unit-of-pricing`
       );
       const data = await response.json(units);
       return data;
@@ -84,7 +84,7 @@ export const fetchDrugThunk = createAsyncThunk(
   async (drug, thunkAPI) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/pharm/v1/drug/${drug}`
+        `${import.meta.env.VITE_APP_API_URL}/v1/drug/${drug}`
       );
 
       const data = await response.json();
@@ -101,7 +101,7 @@ export const deleteDrugThunk = createAsyncThunk(
   async (drug, thunkAPI) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/pharm/v1/drug/${drug}`,
+        `${import.meta.env.VITE_APP_API_URL}/v1/drug/${drug}`,
         {
           method: "DELETE",
           headers: {
@@ -125,7 +125,7 @@ export const updateDrugThunk = createAsyncThunk(
   async (drug, thunkAPI) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/pharm/v1/drug/${drug._id}`,
+        `${import.meta.env.VITE_APP_API_URL}/v1/drug/${drug._id}`,
         {
           method: "PATCH",
           headers: {
@@ -160,7 +160,7 @@ export const searchDrugsThunk = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/pharm/v1/search-drugs?search=${search}`
+        `${import.meta.env.VITE_APP_API_URL}/v1/search-drugs?search=${search}`
       );
       const data = await response.json();
       return data;

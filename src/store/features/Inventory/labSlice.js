@@ -11,7 +11,7 @@ const initialState = {
 // add a lab
 export const addlabThunk = createAsyncThunk("labs/addLab", async (labs, thunkAPI) => {
   try {
-    const response = await fetch("http://localhost:8081/lab/v1/lab", {
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/lab`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const addlabThunk = createAsyncThunk("labs/addLab", async (labs, thunkAPI
 // fetching all labs by lab type
 export const fetchLabsByTypeThunk = createAsyncThunk("labs/getLabsByType", async (labType, thunkAPI ) => {
     try {
-      const response = await fetch("http://localhost:8081/lab/v1/getlabType", {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/getlabType`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export const fetchLabsByTypeThunk = createAsyncThunk("labs/getLabsByType", async
 // fetch all labs
 export const fetchLabsThunk = createAsyncThunk("labs/allLabs", async (labs, thunkAPI) => {
   try {
-    const response = await fetch("http://localhost:8081/lab/v1/labs");
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/labs`);
     const data = await response.json(labs);
 
     
@@ -98,7 +98,7 @@ export const fetchLabTypeThunk = createAsyncThunk(
   "labs/allLabType",
   async (labType, thunkAPI) => {
     try {
-      const response = await fetch("http://localhost:8081/lab/v1/labType");
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/labType`);
       const data = await response.json(labType);
       return data;
     } catch (error) {
@@ -110,7 +110,7 @@ export const fetchLabTypeThunk = createAsyncThunk(
 // fetch a single lab
 export const fetchLabThunk = createAsyncThunk("labs/allLab", async (lab, thunkAPI) => {
   try {
-    const response = await fetch(`http://localhost:8081/lab/v1/lab/${lab}`);
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/lab/${lab}`);
     // eslint-disable-next-line no-unused-vars
     const data = await response.json();
     return data;
@@ -122,7 +122,7 @@ export const fetchLabThunk = createAsyncThunk("labs/allLab", async (lab, thunkAP
 // delete a lab
 export const deleteLabThunk = createAsyncThunk("labs/deleteLab", async (id, thunkAPI) => {
   try {
-    const response = await fetch(`http://localhost:8081/lab/v1/lab/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/v1/lab/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -141,7 +141,7 @@ export const deleteLabThunk = createAsyncThunk("labs/deleteLab", async (id, thun
 export const updateLabThunk = createAsyncThunk("labs/updateLab", async (lab, thunkAPI) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/lab/v1/lab/${lab._id}`,
+        `${import.meta.env.VITE_APP_API_URL}/v1/lab/${lab._id}`,
         {
           method: "PATCH",
           headers: {
@@ -176,7 +176,7 @@ export const searchLabsThunk = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await fetch(
-        `http://localhost:8081/lab/v1/search-labs?search=${search}`
+        `${import.meta.env.VITE_APP_API_URL}/v1/search-labs?search=${search}`
       );
       const data = await response.json();
       return data;

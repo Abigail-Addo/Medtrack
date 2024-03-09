@@ -42,9 +42,9 @@ const AddDrug = () => {
     try {
       const result = await dispatch(addDrugThunk(addDrug));
       if (addDrugThunk.fulfilled.match(result)) {
+        setShowAddModal(false);
         await dispatch(fetchUnitThunk());
         await dispatch(fetchDrugsThunk());
-        setShowAddModal(false);
         setTimeout(() => {
           toast.success("Drug added successfully");
         }, 0.003);

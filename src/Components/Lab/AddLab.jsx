@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import {
   addlabThunk,
-  fetchLabsByTypeThunk,
+  fetchLabTypeThunk,
   fetchLabsThunk,
 } from "../../store/features/Inventory/labSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,9 +41,9 @@ const AddLab = () => {
     try {
       const result = await dispatch(addlabThunk(addLabItem));
       if (addlabThunk.fulfilled.match(result)) {
-        await dispatch(fetchLabsByTypeThunk());
-        await dispatch(fetchLabsThunk());
         setShowAddModal(false);
+        await dispatch(fetchLabTypeThunk());
+        await dispatch(fetchLabsThunk());
         setTimeout(() => {
           toast.success("Lab item added successfully");
         }, 0.003);
