@@ -55,7 +55,6 @@ const AddLab = () => {
         }, 0.003);
       }
     } catch (error) {
-      console.error(error);
       toast.error("Failed to add drug");
     }
   };

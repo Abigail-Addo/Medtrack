@@ -37,7 +37,6 @@ export const addlabThunk = createAsyncThunk("labs/addLab", async (labs, thunkAPI
 
     return data;
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -90,7 +89,6 @@ export const fetchLabsThunk = createAsyncThunk("labs/allLabs", async (labs, thun
 
     return sortedData;
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -104,7 +102,6 @@ export const fetchLabTypeThunk = createAsyncThunk(
       const data = await response.json(labType);
       return data;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -118,7 +115,6 @@ export const fetchLabThunk = createAsyncThunk("labs/allLab", async (lab, thunkAP
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -137,7 +133,6 @@ export const deleteLabThunk = createAsyncThunk("labs/deleteLab", async (id, thun
     const deleteLab = await response.json();
     return id;
   } catch (error) {
-    console.log(error);
     return thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -163,9 +158,13 @@ export const updateLabThunk = createAsyncThunk("labs/updateLab", async (lab, thu
         }
       );
       const labUpdate = await response.json();
+
+      if (response.status === 400) {
+        return thunkAPI.rejectWithValue(labUpdate.message);
+      }
+
       return labUpdate;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

@@ -81,7 +81,7 @@ const DrugList = () => {
 
   // function for the edit icon
   const editDrug = async (drug) => {
-    try {
+
       setShowFormModal(true);
 
       setValue("_id", drug._id);
@@ -90,10 +90,8 @@ const DrugList = () => {
       setValue("drug_code", drug.drug_code);
       setValue("unit_of_pricing", drug.unit_of_pricing);
       setValue("price", drug.price);
-    } catch (error) {
-      console.error(error);
-    }
-  }; 
+
+  };
 
   // functon for the edit form
   const editSubmit = async (drug) => {
@@ -124,15 +122,17 @@ const DrugList = () => {
   //  function for the editing a drug
   const confirmEdit = async () => {
     try {
-      // Make sure the update operation is completed before fetching units
-      await dispatch(updateDrugThunk(editedDrug));
-      await dispatch(fetchUnitThunk());
+      const result = await dispatch(updateDrugThunk(editedDrug));
+      if (updateDrugThunk.fulfilled.match(result)) {
+        await dispatch(fetchUnitThunk());
 
-      toast.success("Drug updated successfully");
-      setShowFormModal(false);
-      setShowEditModal(false);
+        toast.success("Drug updated successfully");
+        setShowFormModal(false);
+        setShowEditModal(false);
+      } else if (updateDrugThunk.rejected.match(result)) {
+        toast.error(result.payload);
+      }
     } catch (error) {
-      console.error(error);
       toast.error("Failed to update drug");
     }
   };
@@ -153,7 +153,6 @@ const DrugList = () => {
       toast.success("Drug deleted successfully");
       setShowDeleteModal(false);
     } catch (error) {
-      console.error(error);
       toast.error("Failed to delete drug");
     }
   };
@@ -372,7 +371,7 @@ const DrugList = () => {
                 }
                 render={({ field: { onChange, value } }) => (
                   <CreatableSelect
-                  className="edit-select"
+                    className="edit-select"
                     isClearable
                     onChange={(selectedOption) => {
                       const selectedValue = selectedOption
@@ -407,9 +406,7 @@ const DrugList = () => {
               />
             </div>
             <div className="formControl">
-              <button type="submit" >
-                Update
-              </button>
+              <button type="submit">Update</button>
             </div>
           </form>
         </Modal.Body>

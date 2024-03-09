@@ -39,7 +39,6 @@ export const addDrugThunk = createAsyncThunk(
 
       return data;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -58,7 +57,6 @@ export const fetchDrugsThunk = createAsyncThunk(
       );
       return sortedData;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -75,7 +73,6 @@ export const fetchUnitThunk = createAsyncThunk(
       const data = await response.json(units);
       return data;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -93,7 +90,6 @@ export const fetchDrugThunk = createAsyncThunk(
       const data = await response.json();
       return data;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -118,7 +114,6 @@ export const deleteDrugThunk = createAsyncThunk(
       const deleteDrug = await response.json();
       return drug;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -145,10 +140,15 @@ export const updateDrugThunk = createAsyncThunk(
           }),
         }
       );
+      
       const result = await response.json();
+
+      if (response.status === 400) {
+        return thunkAPI.rejectWithValue(result.message);
+      }
+
       return result;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

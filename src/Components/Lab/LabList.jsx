@@ -75,7 +75,7 @@ const LabList = () => {
 
   // function for the edit icon
   const editLab = async (lab) => {
-    try {
+
       setShowFormModal(true);
 
       dispatch(fetchLabThunk(lab._id));
@@ -86,9 +86,7 @@ const LabList = () => {
       setValue("sub_category", lab.sub_category);
       setValue("code", lab.code);
       setValue("price", lab.price);
-    } catch (error) {
-      console.error(error);
-    }
+
   };
 
   // functon for the edit form
@@ -102,15 +100,17 @@ const LabList = () => {
   //  function for the editing a lab
   const confirmEdit = async () => {
     try {
-      // Make sure the update operation is completed before fetching units
-      await dispatch(updateLabThunk(editedLabItem));
-      await dispatch(fetchLabTypeThunk());
+      const result = await dispatch(updateLabThunk(editedLabItem));
+      if (updateLabThunk.fulfilled.match(result)) {
+        await dispatch(fetchLabTypeThunk());
 
-      toast.success("Lab item updated successfully");
-      setShowFormModal(false);
-      setShowEditModal(false);
+        toast.success("Lab item updated successfully");
+        setShowFormModal(false);
+        setShowEditModal(false);
+      } else if (updateLabThunk.rejected.match(result)) {
+        toast.error(result.payload);
+      }
     } catch (error) {
-      console.error(error);
       toast.error("Failed to update lab item");
     }
   };
@@ -131,7 +131,6 @@ const LabList = () => {
       toast.success("Drug deleted successfully");
       setShowDeleteModal(false);
     } catch (error) {
-      console.error(error);
       toast.error("Failed to delete drug");
     }
   };
