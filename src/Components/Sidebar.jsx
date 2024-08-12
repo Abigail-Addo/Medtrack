@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { IoSettingsOutline } from "react-icons/io5";
+import { MdLocalHospital } from "react-icons/md";
 
 import { AiOutlineMedicineBox } from "react-icons/ai";
 import { MdOutlineHelpCenter } from "react-icons/md";
@@ -17,6 +18,7 @@ const Sidebar = () => {
               to="/pharmacy"
               activeclassname="active"
             >
+              <MdLocalHospital />
               <p className="px-2">Pharmacy</p>
             </NavLink>
           </li>
