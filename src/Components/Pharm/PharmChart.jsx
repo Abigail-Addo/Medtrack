@@ -32,7 +32,7 @@ const PharmChart = () => {
             chartType="PieChart"
             data={dataWithHeader}
             options={options}
-            width={800}
+            width={500}
             height={450}
           />
         </div>

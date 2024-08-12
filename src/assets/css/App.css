@@ -70,6 +70,7 @@ nav a:hover,
 nav a:focus {
   color: rgba(9, 161, 112, 0.7);
 }
+
 /* Sidebar */
 aside {
   width: 200px;
@@ -270,6 +271,7 @@ div.table-container table tbody tr td span {
   cursor: pointer;
   font-size: 15px;
 }
+
 table tbody tr:nth-child(even) {
   background-color: #d9d9d96b;
 }
@@ -287,10 +289,12 @@ div.details {
   display: flex;
   padding: 0 1.5rem;
 }
+
 div.details h4 {
   width: 40%;
   padding: 1rem 0;
 }
+
 div.details p {
   width: 100%;
   text-align: justify;
@@ -305,7 +309,7 @@ div.stats {
   width: 506px;
   height: 100%;
   position: absolute;
-  right: 8%;
+  right: 0;
   top: 10%;
 }
 
@@ -349,9 +353,11 @@ div.stats {
   opacity: 1;
   padding: 0 0.5rem;
 }
+
 span.search {
   box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.24), 0 1.5px 3px rgba(0, 0, 0, 0.32);
 }
+
 span.button {
   font-size: 15px;
   padding: 0.5rem;
